@@ -13,33 +13,31 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="DataModelContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Movies" EntityType="DataModel.Movies" />
           <EntitySet Name="Users" EntityType="DataModel.User" />
+          <EntitySet Name="Movies" EntityType="DataModel.Movies" />
           <EntitySet Name="Genres" EntityType="DataModel.Genres" />
           <EntitySet Name="Comments" EntityType="DataModel.Comments" />
-          <AssociationSet Name="UserMovies" Association="DataModel.UserMovies">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Movies" EntitySet="Movies" />
-          </AssociationSet>
           <AssociationSet Name="GenresMovies" Association="DataModel.GenresMovies">
             <End Role="Genres" EntitySet="Genres" />
             <End Role="Movies" EntitySet="Movies" />
           </AssociationSet>
-          <AssociationSet Name="MoviesComments" Association="DataModel.MoviesComments">
+          <AssociationSet Name="CommentsMovies" Association="DataModel.CommentsMovies">
+            <End Role="Comments" EntitySet="Comments" />
             <End Role="Movies" EntitySet="Movies" />
-            <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="UserComments" Association="DataModel.UserComments">
-            <End Role="User" EntitySet="Users" />
+          <AssociationSet Name="CommentsUser" Association="DataModel.CommentsUser">
             <End Role="Comments" EntitySet="Comments" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
-          <NavigationProperty Name="Movies" Relationship="DataModel.UserMovies" FromRole="User" ToRole="Movies" />
-          <NavigationProperty Name="Comments" Relationship="DataModel.UserComments" FromRole="User" ToRole="Comments" />
+          <NavigationProperty Name="Comments" Relationship="DataModel.CommentsUser" FromRole="User" ToRole="Comments" />
         </EntityType>
         <EntityType Name="Movies">
           <Key>
@@ -48,9 +46,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" />
           <Property Name="Plot" Type="String" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="DataModel.UserMovies" FromRole="Movies" ToRole="User" />
           <NavigationProperty Name="Genres" Relationship="DataModel.GenresMovies" FromRole="Movies" ToRole="Genres" />
-          <NavigationProperty Name="Comments" Relationship="DataModel.MoviesComments" FromRole="Movies" ToRole="Comments" />
+          <NavigationProperty Name="Comments" Relationship="DataModel.CommentsMovies" FromRole="Movies" ToRole="Comments" />
         </EntityType>
         <EntityType Name="Genres">
           <Key>
@@ -65,35 +62,22 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Rating" Type="Double" Nullable="false" />
+          <Property Name="Rating" Type="String" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" />
-          <NavigationProperty Name="Movies" Relationship="DataModel.MoviesComments" FromRole="Comments" ToRole="Movies" />
-          <Property Name="MoviesId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="DataModel.UserComments" FromRole="Comments" ToRole="User" />
+          <NavigationProperty Name="Movie" Relationship="DataModel.CommentsMovies" FromRole="Comments" ToRole="Movies" />
+          <NavigationProperty Name="User" Relationship="DataModel.CommentsUser" FromRole="Comments" ToRole="User" />
         </EntityType>
-        <Association Name="UserMovies">
-          <End Type="DataModel.User" Role="User" Multiplicity="1" />
-          <End Type="DataModel.Movies" Role="Movies" Multiplicity="*" />
-        </Association>
         <Association Name="GenresMovies">
           <End Type="DataModel.Genres" Role="Genres" Multiplicity="*" />
           <End Type="DataModel.Movies" Role="Movies" Multiplicity="*" />
         </Association>
-        <Association Name="MoviesComments">
+        <Association Name="CommentsMovies">
+          <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
           <End Type="DataModel.Movies" Role="Movies" Multiplicity="1" />
-          <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Movies">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Comments">
-              <PropertyRef Name="MoviesId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
-        <Association Name="UserComments">
-          <End Type="DataModel.User" Role="User" Multiplicity="1" />
+        <Association Name="CommentsUser">
           <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
+          <End Type="DataModel.User" Role="User" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
