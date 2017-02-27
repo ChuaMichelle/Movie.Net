@@ -65,7 +65,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Rating" Type="String" Nullable="false" />
+          <Property Name="Rating" Type="Double" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" />
           <NavigationProperty Name="Movies" Relationship="DataModel.MoviesComments" FromRole="Comments" ToRole="Movies" />
           <Property Name="MoviesId" Type="Int32" Nullable="false" />
