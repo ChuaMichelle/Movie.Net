@@ -8,10 +8,10 @@
         <EntityTypeShape EntityType="DataModel.User" Width="1.5" PointX="4.75" PointY="1.25" />
         <EntityTypeShape EntityType="DataModel.Movies" Width="1.5" PointX="7.25" PointY="1.25" />
         <EntityTypeShape EntityType="DataModel.Genres" Width="1.5" PointX="9.625" PointY="1.25" />
-        <EntityTypeShape EntityType="DataModel.Comments" Width="1.5" PointX="5.75" PointY="4" />
+        <EntityTypeShape EntityType="DataModel.Comments" Width="1.5" PointX="6.25" PointY="3.875" />
         <AssociationConnector Association="DataModel.GenresMovies" />
-        <AssociationConnector Association="DataModel.CommentsMovies" />
-        <AssociationConnector Association="DataModel.CommentsUser" />
+        <AssociationConnector Association="DataModel.MoviesComments" />
+        <AssociationConnector Association="DataModel.UserComments" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

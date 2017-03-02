@@ -14,20 +14,43 @@ namespace Movie.Net
         {
             Name = "Hello MVVM!";
             MyCommand = new RelayCommand(MycommandExecute, MyCommandCanExecute);
+            ChangePage = new RelayCommand(changePage, returnTrue);
         }
 
         public string _name;
+        public string _password;
+        public string _username;
 
         public string Name
         {
             get { return _name; }
-            set {
+            set
+            {
                 _name = value;
+                RaisePropertyChanged();
+            }
+        }
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                _username = value;
+                RaisePropertyChanged();
+            }
+        }
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                _password = value;
                 RaisePropertyChanged();
             }
         }
 
         public RelayCommand MyCommand { get; }
+        public RelayCommand ChangePage { get; }
 
         void MycommandExecute()
         {
@@ -37,6 +60,14 @@ namespace Movie.Net
         bool MyCommandCanExecute()
         {
             return Name != "Hello click!";
+        }
+
+        void changePage() {
+            //MainWindow.
+        }
+
+        bool returnTrue() {
+            return true;
         }
 
     }

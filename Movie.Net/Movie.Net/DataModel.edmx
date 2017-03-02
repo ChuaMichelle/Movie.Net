@@ -4,11 +4,120 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="DataModelTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="Users" EntityType="DataModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Movies" EntityType="DataModel.Store.Movies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Genres" EntityType="DataModel.Store.Genres" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="DataModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GenresMovies" EntityType="DataModel.Store.GenresMovies" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_GenresMovies_Genres" Association="DataModel.Store.FK_GenresMovies_Genres">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="GenresMovies" EntitySet="GenresMovies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GenresMovies_Movies" Association="DataModel.Store.FK_GenresMovies_Movies">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="GenresMovies" EntitySet="GenresMovies" />
+    </AssociationSet>
+    <AssociationSet Name="MoviesComments" Association="DataModel.Store.MoviesComments">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="UserComments" Association="DataModel.Store.UserComments">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Movies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Plot" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Genres">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rating" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MoviesId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenresMovies">
+    <Key>
+      <PropertyRef Name="Genres_Id" />
+      <PropertyRef Name="Movies_Id" />
+    </Key>
+    <Property Name="Genres_Id" Type="int" Nullable="false" />
+    <Property Name="Movies_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MoviesComments">
+    <End Role="Movies" Type="DataModel.Store.Movies" Multiplicity="1" />
+    <End Role="Comments" Type="DataModel.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="MoviesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserComments">
+    <End Role="User" Type="DataModel.Store.Users" Multiplicity="1" />
+    <End Role="Comments" Type="DataModel.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GenresMovies_Genres">
+    <End Role="Genres" Type="DataModel.Store.Genres" Multiplicity="1" />
+    <End Role="GenresMovies" Type="DataModel.Store.GenresMovies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genres">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenresMovies">
+        <PropertyRef Name="Genres_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GenresMovies_Movies">
+    <End Role="GenresMovies" Type="DataModel.Store.GenresMovies" Multiplicity="*" />
+    <End Role="Movies" Type="DataModel.Store.Movies" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenresMovies">
+        <PropertyRef Name="Movies_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -21,13 +130,13 @@
             <End Role="Genres" EntitySet="Genres" />
             <End Role="Movies" EntitySet="Movies" />
           </AssociationSet>
-          <AssociationSet Name="CommentsMovies" Association="DataModel.CommentsMovies">
-            <End Role="Comments" EntitySet="Comments" />
+          <AssociationSet Name="MoviesComments" Association="DataModel.MoviesComments">
             <End Role="Movies" EntitySet="Movies" />
-          </AssociationSet>
-          <AssociationSet Name="CommentsUser" Association="DataModel.CommentsUser">
             <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="UserComments" Association="DataModel.UserComments">
             <End Role="User" EntitySet="Users" />
+            <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -37,7 +146,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="String" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="DataModel.CommentsUser" FromRole="User" ToRole="Comments" />
+          <NavigationProperty Name="Comments" Relationship="DataModel.UserComments" FromRole="User" ToRole="Comments" />
         </EntityType>
         <EntityType Name="Movies">
           <Key>
@@ -47,7 +156,7 @@
           <Property Name="Title" Type="String" Nullable="false" />
           <Property Name="Plot" Type="String" Nullable="false" />
           <NavigationProperty Name="Genres" Relationship="DataModel.GenresMovies" FromRole="Movies" ToRole="Genres" />
-          <NavigationProperty Name="Comments" Relationship="DataModel.CommentsMovies" FromRole="Movies" ToRole="Comments" />
+          <NavigationProperty Name="Comments" Relationship="DataModel.MoviesComments" FromRole="Movies" ToRole="Comments" />
         </EntityType>
         <EntityType Name="Genres">
           <Key>
@@ -64,32 +173,92 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Rating" Type="String" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" />
-          <NavigationProperty Name="Movie" Relationship="DataModel.CommentsMovies" FromRole="Comments" ToRole="Movies" />
-          <NavigationProperty Name="User" Relationship="DataModel.CommentsUser" FromRole="Comments" ToRole="User" />
+          <NavigationProperty Name="Movie" Relationship="DataModel.MoviesComments" FromRole="Comments" ToRole="Movies" />
+          <Property Name="MoviesId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DataModel.UserComments" FromRole="Comments" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="GenresMovies">
           <End Type="DataModel.Genres" Role="Genres" Multiplicity="*" />
           <End Type="DataModel.Movies" Role="Movies" Multiplicity="*" />
         </Association>
-        <Association Name="CommentsMovies">
-          <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
+        <Association Name="MoviesComments">
           <End Type="DataModel.Movies" Role="Movies" Multiplicity="1" />
-        </Association>
-        <Association Name="CommentsUser">
           <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="MoviesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserComments">
           <End Type="DataModel.User" Role="User" Multiplicity="1" />
+          <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="DataModel" />
-        <Alias Key="Target" Value="DataModel.Store" />
-        <EntityContainerMapping CdmEntityContainer="DataModelContainer" StorageEntityContainer="DataModelTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="DataModelContainer">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movies">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Movies)">
+        <MappingFragment StoreEntitySet="Movies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Plot" ColumnName="Plot" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Genres">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Genres)">
+        <MappingFragment StoreEntitySet="Genres">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Comments)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="MoviesId" ColumnName="MoviesId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GenresMovies" TypeName="DataModel.GenresMovies" StoreEntitySet="GenresMovies">
+      <EndProperty Name="Genres">
+        <ScalarProperty Name="Id" ColumnName="Genres_Id" />
+      </EndProperty>
+      <EndProperty Name="Movies">
+        <ScalarProperty Name="Id" ColumnName="Movies_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -103,6 +272,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
