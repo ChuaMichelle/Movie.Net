@@ -8,8 +8,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid x:Name="mainWindowGrid">
-        <Border x:Name="Stage" Grid.Row="1"/>
-        <Grid x:Name="LoginLayer" Background="#B0000000" Visibility="{Binding AuthVM.IsNotAuthenticated}">
+        <Border x:Name="Stage" Grid.Row="1">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property = "Visibility" Value = "Hidden" />
+                    <Style.Triggers>
+                        <DataTrigger  Binding = "{Binding IsNotAuthenticated}" Value = "True">
+                            <Setter Property = "Visibility" Value = "Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+
+        <Grid x:Name="LoginLayer" Background="#B0000000" Visibility="{Binding IsNotAuthenticated}">
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue" Margin="116,61,87,81" Height="178" Width="314">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

@@ -13,6 +13,7 @@ namespace secondTrial.ViewModel
     public class MainViewModel : ViewModelBase
     {
         public RelayCommand LoginCommand { get; set; }
+        private bool _IsAuthenticated;
 
 
         //public MainViewModel(Border Stage)
@@ -26,8 +27,32 @@ namespace secondTrial.ViewModel
             LoginCommand = new RelayCommand(DoLogin);
         }
 
+        public bool IsAuthenticated
+        {
+            get { return _IsAuthenticated; }
+            set
+            {
+                if (value != _IsAuthenticated)
+                {
+                    _IsAuthenticated = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("IsNotAuthenticated");
+                    //RaisePropertyChanged("IsAuthenticated");
+                    //RaisePropertyChanged("IsNotAuthenticated");
+                }
+            }
+        }
+        public bool IsNotAuthenticated
+        {
+            get
+            {
+                return !IsAuthenticated;
+            }
+        }
+
         private void DoLogin(object obj)
         {
+            IsAuthenticated = true;
             Trace.WriteLine("text");
             //AuthVM.Authenticate();
         }

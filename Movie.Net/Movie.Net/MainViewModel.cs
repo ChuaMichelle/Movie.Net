@@ -20,7 +20,17 @@ namespace Movie.Net
         public string _name;
         public string _password;
         public string _username;
+        public string _isAuthenticated;
 
+        public string IsAuthenticated
+        {
+            get { return _isAuthenticated; }
+            set
+            {
+                //_isAuthenticated = true;
+                RaisePropertyChanged();
+            }
+        }
         public string Name
         {
             get { return _name; }
@@ -54,7 +64,10 @@ namespace Movie.Net
 
         void MycommandExecute()
         {
+
             Name = "Hello click!";
+            DataModelContainer ctx = new DataModelContainer();
+            var query = ctx.Users.Where(u => u.Id.Equals(1)).ToList();
         }
 
         bool MyCommandCanExecute()

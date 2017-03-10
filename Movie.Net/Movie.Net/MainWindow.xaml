@@ -8,52 +8,27 @@
                       DataContext="{Binding Source={StaticResource VMLocator}, Path=MainVM}"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="26*"/>
-        </Grid.RowDefinitions>
-        <Menu>
-            <MenuItem Header="Log out" Click="MenuItem_Click1"/>
-            <MenuItem Header="Option 2">
-                <MenuItem Header="Load new control" Click="MenuItem_Click2a"/>
-                <MenuItem Header="Open new window" Click="MenuItem_Click2b"/>
-            </MenuItem>
-        </Menu>
-        <Border x:Name="Stage" Grid.Row="1"/>
-        <Grid x:Name="LoginLayer" Background="#FFFFFFFF" Grid.RowSpan="2">
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Log in" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" FontSize="20"/>
-                <TextBlock Text="Name" Grid.Row="1" Margin="3"/>
-                <TextBox x:Name="txtName" Grid.Row="1" Grid.Column="1" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
-                <TextBlock Text="Password" Grid.Row="2" Margin="3"/>
-                <TextBox x:Name="txtPassword"  Grid.Column="1" Grid.Row="2" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
-                <Button Click="Login_Click" Content="Log in" Grid.Row="3" Grid.Column="1" Margin="3"/>
-            </Grid>
+    <Grid x:Name="LoginLayer" Background="#B0000000" Visibility="Visible">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue" Height="309" Margin="0,10,0,0" Width="517">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Command="{Binding MyCommand}" Content="Sign up" Grid.ColumnSpan="1" Grid.Row="0" Margin="57,10,57,10"/>
+            <Button Command="{Binding MyCommand}" Content="Log in" Grid.ColumnSpan="1" Grid.Row="0" Margin="57,10,57,10" Grid.Column="1"/>
+            <TextBlock Text="Log in" Grid.Row="1" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" FontSize="20"/>
+            <TextBlock Text="Name" Grid.Row="2" Margin="3"/>
+            <TextBox x:Name="txtName" Text="Hello" Grid.Row="2" Grid.Column="1" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
+            <TextBlock Text="Password" Grid.Row="3" Margin="3"/>
+            <TextBox x:Name="txtPassword" Text="Hello" Grid.Column="1" Grid.Row="3" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
+            <Button Command="{Binding MyCommand}" Content="Log in" Grid.ColumnSpan="2" Grid.Row="4" Margin="122,10"/>
         </Grid>
-        <!--
-        <Label x:Name="label" Content="{Binding Name}" HorizontalAlignment="Left" Margin="26,79,0,0" VerticalAlignment="Top" Height="28" Width="163"/>
-        <TextBox Text="{Binding Name}" Margin="26,127,302,170"/>
-        <TextBox Text="{Binding Name}" Margin="26,127,302,170"/>
-        <Button x:Name="button" Command="{Binding MyCommand}"  Content="Click here" HorizontalAlignment="Left" Margin="242,127,0,0" VerticalAlignment="Top" Width="75"/>
-        -->
-        
     </Grid>
-    <!--
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button Content="settings" Cursor="Hand" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-    -->
 </Controls:MetroWindow>

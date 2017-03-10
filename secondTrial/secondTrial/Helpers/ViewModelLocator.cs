@@ -12,9 +12,9 @@ namespace secondTrial.Helpers
     public class ViewModelLocator
     {
         // TODO : put stage here as params
-        //public static MainViewModel MainVM { get; } = new MainViewModel();
+        public static MainViewModel MainVM { get; } = new MainViewModel();
 
-        string s = MainWindow.name;
+        //string s = MainWindow.name;
 
 
 
