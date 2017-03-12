@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Diagnostics;
 
 
-namespace Movie.Net
+namespace Movie.Net.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {

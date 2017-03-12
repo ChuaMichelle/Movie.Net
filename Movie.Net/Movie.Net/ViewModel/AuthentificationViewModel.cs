@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 
-namespace Movie.Net
+namespace Movie.Net.ViewModel
 {
     public class AuthenticationViewModel : ViewModelBase
     {

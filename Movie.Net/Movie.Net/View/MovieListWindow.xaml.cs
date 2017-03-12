@@ -10,18 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+
 
 namespace Movie.Net.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MovieListWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MovieListWindow : MetroWindow
     {
-        public MainWindow()
+        public MovieListWindow()
         {
             InitializeComponent();
         }
