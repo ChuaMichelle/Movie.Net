@@ -28,6 +28,17 @@ namespace Movie.Net.ViewModel
             LoginCommand = new RelayCommand(LoginExecute, MyCommandsCanExecute);
         }
 
+        private bool MyCommandsCanExecute()
+        {
+            if (String.IsNullOrWhiteSpace(AuthViewModel.CurrentUser.Login) || String.IsNullOrWhiteSpace(AuthViewModel.CurrentUser.Password))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         public string AuthErrorMessage
         {
             get { return _AuthErrorMessage; }
@@ -71,16 +82,13 @@ namespace Movie.Net.ViewModel
             DataModelContainer ctx = new DataModelContainer();
             if (ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login))
             {
-
                 HandleMessages(false, "Error: Username already taken.");
-                Trace.WriteLine(ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login).GetType());
             }
             else
             {
                 ctx.Users.Add(AuthViewModel.CurrentUser);
                 ctx.SaveChanges();
                 HandleMessages(true, "Welcome ! Log in to continue to the app.");
-
             }
         }
 
@@ -91,8 +99,17 @@ namespace Movie.Net.ViewModel
             {
                 if (ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login && u.Password == AuthViewModel.CurrentUser.Password))
                 {
-                    // Login
-                    HandleMessages(true, "Hello! User logged in successfully!");
+                    if (AuthViewModel.IsNotAuthenticated)
+                    {
+                        AuthViewModel.Authenticate();
+                        HandleMessages(true, "Hello! User logged in successfully!");
+                        var movieListWindow = new View.MovieListWindow();
+                        movieListWindow.ShowDialog();
+                    }
+                    else
+                    {
+                        HandleMessages(false, "Error: User already logged in.");
+                    }
                 }
                 else
                 {
@@ -102,20 +119,6 @@ namespace Movie.Net.ViewModel
             else
             {
                 HandleMessages(false, "Error:  User not found in the database.");
-                Trace.WriteLine(ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login));
-
-            }
-        }
-
-        private bool MyCommandsCanExecute()
-        {
-            if (String.IsNullOrWhiteSpace(AuthViewModel.CurrentUser.Login) || String.IsNullOrWhiteSpace(AuthViewModel.CurrentUser.Password))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
             }
         }
 
