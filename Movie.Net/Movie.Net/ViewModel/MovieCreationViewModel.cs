@@ -11,7 +11,7 @@ namespace Movie.Net.ViewModel
     public class MovieCreationViewModel : ViewModelBase
     {
         public MovieCreationViewModel()
-    {
+        {
+        }
     }
-}
 }
