@@ -9,7 +9,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Title="MainWindow" Height="350" Width="525">
     <Grid x:Name="LoginLayer" Background="#B0000000" Visibility="Visible">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue" Height="309" Margin="0,10,0,0" Width="517" RenderTransformOrigin="0.424,0.501">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue" Height="319" Width="517" RenderTransformOrigin="0.424,0.501">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
