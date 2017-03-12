@@ -5,83 +5,142 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Diagnostics;
 
 namespace Movie.Net
 {
     public class MainViewModel : ViewModelBase
     {
+        public AuthenticationViewModel AuthViewModel { get; set; }
+        public RelayCommand SignupCommand { get; set; }
+        public RelayCommand LoginCommand { get; set; }
+        public User user = new User();
+        private string _AuthErrorMessage;
+        private bool _HasAuthErrorMessage;
+        private string _AuthSuccessMessage;
+        private bool _HasAuthSuccessMessage;
+
         public MainViewModel()
         {
-            Name = "Hello MVVM!";
-            MyCommand = new RelayCommand(MycommandExecute, MyCommandCanExecute);
-            ChangePage = new RelayCommand(changePage, returnTrue);
+            AuthViewModel = new AuthenticationViewModel();
+            SignupCommand = new RelayCommand(SignupExecute, MyCommandsCanExecute);
+            LoginCommand = new RelayCommand(LoginExecute, MyCommandsCanExecute);
         }
 
-        public string _name;
-        public string _password;
-        public string _username;
-        public string _isAuthenticated;
-
-        public string IsAuthenticated
+        public string AuthErrorMessage
         {
-            get { return _isAuthenticated; }
+            get { return _AuthErrorMessage; }
             set
             {
-                //_isAuthenticated = true;
-                RaisePropertyChanged();
+                _AuthErrorMessage = value;
+                RaisePropertyChanged("AuthErrorMessage");
             }
         }
-        public string Name
+        public bool HasAuthErrorMessage
         {
-            get { return _name; }
+            get { return _HasAuthErrorMessage; }
             set
             {
-                _name = value;
-                RaisePropertyChanged();
+                _HasAuthErrorMessage = value;
+                RaisePropertyChanged("HasAuthErrorMessage");
             }
         }
-        public string Username
+        public string AuthSuccessMessage
         {
-            get { return _username; }
+            get { return _AuthSuccessMessage; }
             set
             {
-                _username = value;
-                RaisePropertyChanged();
+                _AuthSuccessMessage = value;
+                RaisePropertyChanged("AuthSuccessMessage");
             }
         }
-        public string Password
+        public bool HasAuthSuccessMessage
         {
-            get { return _password; }
+            get { return _HasAuthSuccessMessage; }
             set
             {
-                _password = value;
-                RaisePropertyChanged();
+                _HasAuthSuccessMessage = value;
+                RaisePropertyChanged("HasAuthSuccessMessage");
             }
         }
 
-        public RelayCommand MyCommand { get; }
-        public RelayCommand ChangePage { get; }
 
-        void MycommandExecute()
+        private void SignupExecute()
         {
-
-            Name = "Hello click!";
             DataModelContainer ctx = new DataModelContainer();
-            var query = ctx.Users.Where(u => u.Id.Equals(1)).ToList();
+            if (ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login))
+            {
+
+                HandleMessages(false, "Error: Username already taken.");
+                Trace.WriteLine(ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login).GetType());
+            }
+            else
+            {
+                ctx.Users.Add(AuthViewModel.CurrentUser);
+                ctx.SaveChanges();
+                HandleMessages(true, "Welcome ! Log in to continue to the app.");
+
+            }
         }
 
-        bool MyCommandCanExecute()
+        private void LoginExecute()
+        {            
+            DataModelContainer ctx = new DataModelContainer();
+            if (ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login))
+            {
+                if (ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login && u.Password == AuthViewModel.CurrentUser.Password))
+                {
+                    // Login
+                    HandleMessages(true, "Hello! User logged in successfully!");
+                }
+                else
+                {
+                    HandleMessages(false, "Error: Incorrect password.");
+                }                
+            }
+            else
+            {
+                HandleMessages(false, "Error:  User not found in the database.");
+                Trace.WriteLine(ctx.Users.Any(u => u.Login == AuthViewModel.CurrentUser.Login));
+
+            }
+        }
+
+        private bool MyCommandsCanExecute()
         {
-            return Name != "Hello click!";
+            if (String.IsNullOrWhiteSpace(AuthViewModel.CurrentUser.Login) || String.IsNullOrWhiteSpace(AuthViewModel.CurrentUser.Password))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
-        void changePage() {
-            //MainWindow.
+        // false meanse error / true means success
+        private void HandleMessages(Boolean bolError, String msg)
+        {
+            if (bolError)
+            {
+                // handle success
+                HasAuthSuccessMessage = true;
+                AuthSuccessMessage = msg;
+                // handle error
+                HasAuthErrorMessage = false;
+                AuthErrorMessage = null;
+                Trace.WriteLine(AuthSuccessMessage);
+            }
+            else
+            {
+                // handle success
+                HasAuthSuccessMessage = false;
+                AuthSuccessMessage = null;
+                // handle error
+                HasAuthErrorMessage = true;
+                AuthErrorMessage = msg;
+                Trace.WriteLine(AuthErrorMessage);
+            }
         }
-
-        bool returnTrue() {
-            return true;
-        }
-
     }
 }

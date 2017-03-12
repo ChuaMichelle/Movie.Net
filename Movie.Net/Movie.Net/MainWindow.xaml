@@ -9,7 +9,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Title="MainWindow" Height="350" Width="525">
     <Grid x:Name="LoginLayer" Background="#B0000000" Visibility="Visible">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue" Height="309" Margin="0,10,0,0" Width="517">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue" Height="309" Margin="0,10,0,0" Width="517" RenderTransformOrigin="0.424,0.501">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -21,14 +21,15 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Command="{Binding MyCommand}" Content="Sign up" Grid.ColumnSpan="1" Grid.Row="0" Margin="57,10,57,10"/>
-            <Button Command="{Binding MyCommand}" Content="Log in" Grid.ColumnSpan="1" Grid.Row="0" Margin="57,10,57,10" Grid.Column="1"/>
-            <TextBlock Text="Log in" Grid.Row="1" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" FontSize="20"/>
-            <TextBlock Text="Name" Grid.Row="2" Margin="3"/>
-            <TextBox x:Name="txtName" Text="Hello" Grid.Row="2" Grid.Column="1" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
-            <TextBlock Text="Password" Grid.Row="3" Margin="3"/>
-            <TextBox x:Name="txtPassword" Text="Hello" Grid.Column="1" Grid.Row="3" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
-            <Button Command="{Binding MyCommand}" Content="Log in" Grid.ColumnSpan="2" Grid.Row="4" Margin="122,10"/>
+            <TextBlock Text="Log in" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="222,10,236,0" FontSize="20"/>
+            <TextBlock Text="{Binding AuthErrorMessage}" Grid.Row="1" Visibility="{Binding HasAuthErrorMessage, Converter={StaticResource BoolToVisibility}}" Grid.ColumnSpan="2" Margin="0,0,10,0" Foreground="#FFFF1010" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding AuthSuccessMessage}" Grid.Row="1" Visibility="{Binding HasAuthSuccessMessage, Converter={StaticResource BoolToVisibility}}" Grid.ColumnSpan="2" Margin="0,0,10,0" Foreground="#FF3D6809" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock Text="Name" Grid.Row="2" Margin="3,22,103,23" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
+            <TextBox x:Name="txtName" Text="{Binding AuthViewModel.CurrentUser.Login}" Grid.Row="2" Margin="180,3,0,3" MinWidth="100" Width="327" Grid.ColumnSpan="2"/>
+            <TextBlock Text="Password" Grid.Row="3" Margin="3,22,103,23" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
+            <TextBox x:Name="txtPassword" Text="{Binding AuthViewModel.CurrentUser.Password}" Grid.Row="3" Margin="180,3,0,3" MinWidth="100" Width="327" Grid.ColumnSpan="2"/>
+            <Button Command="{Binding SignupCommand}" Content="Sign up" Grid.Row="4" Margin="34,10,60,10" Grid.Column="1"/>
+            <Button Command="{Binding LoginCommand}" Content="Log in" Grid.Row="4" Margin="49,10,44,10" RenderTransformOrigin="-1.068,0.517"/>
         </Grid>
     </Grid>
 </Controls:MetroWindow>

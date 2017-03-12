@@ -8,6 +8,6 @@ namespace Movie.Net
 {
     public class VMLocator
     {
-        public static MainViewModel MainVM { get; } = new MainViewModel();
+        public static MainViewModel MainVM { get; set; } = new MainViewModel();
     }
 }
