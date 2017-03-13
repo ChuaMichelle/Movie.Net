@@ -11,6 +11,8 @@ namespace Movie.Net.ViewModel
 {
     public class MovieListViewModel : ViewModelBase
     {
+        public FilmListViewModel GetFilmTitle { get; set; }
+
         public MovieListViewModel()
         {
         }

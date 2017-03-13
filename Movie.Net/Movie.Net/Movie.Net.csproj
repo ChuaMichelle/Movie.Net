@@ -137,6 +137,7 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MovieCreationViewModel.cs" />
+    <Compile Include="ViewModel\FilmListViewModel.cs" />
     <Compile Include="ViewModel\MovieListViewModel.cs" />
     <Compile Include="ViewModel\VMLocator.cs" />
     <Compile Include="View\MovieCreationWindow.xaml.cs">
@@ -200,7 +201,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="DataModel.Context.tt">
@@ -208,6 +211,7 @@
       <LastGenOutput>DataModel.Context.cs</LastGenOutput>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Content>
+    <Content Include="DataModel.edmx.sql" />
     <Content Include="Model\DataModel.edmx.sql" />
     <Content Include="DataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
