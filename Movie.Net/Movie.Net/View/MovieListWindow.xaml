@@ -29,20 +29,16 @@
             <TextBlock Text="{Binding AuthSuccessMessage}" Grid.Row="1" Visibility="{Binding HasAuthSuccessMessage, Converter={StaticResource BoolToVisibility}}" Grid.ColumnSpan="2" Margin="0,0,10,0" Foreground="#FF3D6809" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Text="Liste des films" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="235,0,237,10" FontSize="20"/>
             <Grid Name="ColumnName" Grid.ColumnSpan="4" Grid.Row="1">
-                <Grid Height="17" Width="605">
-                    <TextBlock x:Name="ColumnTitle" Text="Titre" Margin="0,0,465,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                    <TextBlock x:Name="ColumnResume" Text="Résumé" Margin="280,0,55,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                    <TextBlock x:Name="ColumnNote" Text="Note" Margin="555,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                    <TextBlock x:Name="ColumnGenre" Text="Genre" Margin="140,0,325,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                </Grid>
+                <TextBlock x:Name="ColumnTitle" Text="Titre" Margin="0,0,465,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
+                <TextBlock x:Name="ColumnResume" Text="Résumé" Margin="280,0,55,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
+                <TextBlock x:Name="ColumnNote" Text="Note" Margin="555,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
+                <TextBlock x:Name="ColumnGenre" Text="Genre" Margin="140,0,325,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
             </Grid>
-            <Grid Name="RowFilm" Grid.ColumnSpan="4" Grid.Row="1">
-                <Grid Height="17" Width="605">
-                    <TextBlock x:Name="title" Text="{Binding GetFilmTitle}" Margin="0,0,465,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                    <TextBlock x:Name="resume" Text="Résumé" Margin="280,0,55,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                    <TextBlock x:Name="note" Text="Note" Margin="555,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                    <TextBlock x:Name="genre" Text="Genre" Margin="140,0,325,0" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
-                </Grid>
+            <Grid Name="RowFilm" Grid.ColumnSpan="4" Grid.Row="2">
+                <TextBlock x:Name="FilmTitle" Text="{Binding GetListFilmTitle}" Margin="0,0,465,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
+                <TextBlock x:Name="FilmResume" Text="Résumé" Margin="280,0,55,0" TextAlignment="Center" Height="57" VerticalAlignment="Center"/>
+                <TextBlock x:Name="FilmNote" Text="Note" Margin="555,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
+                <TextBlock x:Name="FilmGenre" Text="Genre" Margin="140,0,325,0" TextAlignment="Center" VerticalAlignment="Center" Height="57"/>
             </Grid>
         </Grid>
 

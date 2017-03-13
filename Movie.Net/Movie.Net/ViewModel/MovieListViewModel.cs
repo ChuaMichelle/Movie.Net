@@ -11,10 +11,25 @@ namespace Movie.Net.ViewModel
 {
     public class MovieListViewModel : ViewModelBase
     {
-        public FilmListViewModel GetFilmTitle { get; set; }
-
         public MovieListViewModel()
         {
+
+        }
+
+        private List<Movies> _movieTitle;
+
+        public List<Movies> MovieTitle
+        {
+            get { return _movieTitle; }
+            set { _movieTitle = value; }
+        }
+
+        public void GetListFilmTitle()
+        {
+            DataModelContainer ctx = new DataModelContainer();
+
+            MovieTitle = ctx.Movies.Where(m => m.Title.Contains("a")).ToList();
+
         }
     }
 }
