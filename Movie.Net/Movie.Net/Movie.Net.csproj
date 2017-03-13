@@ -136,9 +136,13 @@
     <Compile Include="User.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\MovieCreationViewModel.cs" />
     <Compile Include="ViewModel\FilmListViewModel.cs" />
     <Compile Include="ViewModel\MovieListViewModel.cs" />
     <Compile Include="ViewModel\VMLocator.cs" />
+    <Compile Include="View\MovieCreationWindow.xaml.cs">
+      <DependentUpon>MovieCreationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MovieListWindow.xaml.cs">
       <DependentUpon>MovieListWindow.xaml</DependentUpon>
     </Compile>
@@ -155,6 +159,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\MovieCreationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\MovieListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -25,6 +25,7 @@
             <TextBlock Text="{Binding AuthErrorMessage}" Grid.Row="1" Visibility="{Binding HasAuthErrorMessage, Converter={StaticResource BoolToVisibility}}" Grid.ColumnSpan="2" Margin="0,0,10,0" Foreground="#FFFF1010" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Text="{Binding AuthSuccessMessage}" Grid.Row="1" Visibility="{Binding HasAuthSuccessMessage, Converter={StaticResource BoolToVisibility}}" Grid.ColumnSpan="2" Margin="0,0,10,0" Foreground="#FF3D6809" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button Command="{Binding LogoutCommand}" Visibility="{Binding AuthViewModel.IsAuthenticated, Converter={StaticResource BoolToVisibility}}" Content="Log Out" Margin="94,10,37,21" RenderTransformOrigin="-1.068,0.517" Grid.Column="1"/>
+            <Button Command="{Binding AddMovieCommand}"  Visibility="{Binding AuthViewModel.IsAuthenticated, Converter={StaticResource BoolToVisibility}}" Content="Add a movie" Margin="126,11,5,20" RenderTransformOrigin="-1.068,0.517" Grid.Column="1" Grid.Row="1"/>
             <TextBlock Text="Name" Grid.Row="2" Margin="3,22,103,23" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>
             <TextBox x:Name="txtName" Text="{Binding AuthViewModel.CurrentUser.Login}" Grid.Row="2" Margin="180,3,0,3" MinWidth="100" Width="327" Grid.ColumnSpan="2"/>
             <TextBlock Text="Password" Grid.Row="3" Margin="3,22,103,23" TextAlignment="Center" VerticalAlignment="Center" Height="17"/>

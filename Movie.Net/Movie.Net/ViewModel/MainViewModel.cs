@@ -114,10 +114,7 @@ namespace Movie.Net.ViewModel
                             AuthViewModel.Authenticate();
                             HandleMessages(true, "Hello! User logged in successfully!");
                             var movieListWindow = new View.MovieListWindow();
-<<<<<<< Updated upstream
-=======
                             //var movieListWindow = new View.MovieCreationWindow();
->>>>>>> Stashed changes
                             movieListWindow.ShowDialog();
                         }
                         else
