@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Movie.Net/Movie.Net/DataModel.edmx.sql

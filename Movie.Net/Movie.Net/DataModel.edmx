@@ -10,15 +10,6 @@
     <EntitySet Name="Movies" EntityType="DataModel.Store.Movies" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Genres" EntityType="DataModel.Store.Genres" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Comments" EntityType="DataModel.Store.Comments" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="GenresMovies" EntityType="DataModel.Store.GenresMovies" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_GenresMovies_Genres" Association="DataModel.Store.FK_GenresMovies_Genres">
-      <End Role="Genres" EntitySet="Genres" />
-      <End Role="GenresMovies" EntitySet="GenresMovies" />
-    </AssociationSet>
-    <AssociationSet Name="FK_GenresMovies_Movies" Association="DataModel.Store.FK_GenresMovies_Movies">
-      <End Role="Movies" EntitySet="Movies" />
-      <End Role="GenresMovies" EntitySet="GenresMovies" />
-    </AssociationSet>
     <AssociationSet Name="MoviesComments" Association="DataModel.Store.MoviesComments">
       <End Role="Movies" EntitySet="Movies" />
       <End Role="Comments" EntitySet="Comments" />
@@ -26,6 +17,10 @@
     <AssociationSet Name="UserComments" Association="DataModel.Store.UserComments">
       <End Role="User" EntitySet="Users" />
       <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="GenresMovies" Association="DataModel.Store.GenresMovies">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="Movies" EntitySet="Movies" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
@@ -43,6 +38,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Plot" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Genre_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Genres">
     <Key>
@@ -60,14 +56,6 @@
     <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
     <Property Name="MoviesId" Type="int" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="GenresMovies">
-    <Key>
-      <PropertyRef Name="Genres_Id" />
-      <PropertyRef Name="Movies_Id" />
-    </Key>
-    <Property Name="Genres_Id" Type="int" Nullable="false" />
-    <Property Name="Movies_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="MoviesComments">
     <End Role="Movies" Type="DataModel.Store.Movies" Multiplicity="1" />
@@ -93,27 +81,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_GenresMovies_Genres">
+  <Association Name="GenresMovies">
     <End Role="Genres" Type="DataModel.Store.Genres" Multiplicity="1" />
-    <End Role="GenresMovies" Type="DataModel.Store.GenresMovies" Multiplicity="*" />
+    <End Role="Movies" Type="DataModel.Store.Movies" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Genres">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="GenresMovies">
-        <PropertyRef Name="Genres_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_GenresMovies_Movies">
-    <End Role="GenresMovies" Type="DataModel.Store.GenresMovies" Multiplicity="*" />
-    <End Role="Movies" Type="DataModel.Store.Movies" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Movies">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="GenresMovies">
-        <PropertyRef Name="Movies_Id" />
+      <Dependent Role="Movies">
+        <PropertyRef Name="Genre_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -126,10 +102,6 @@
           <EntitySet Name="Movies" EntityType="DataModel.Movies" />
           <EntitySet Name="Genres" EntityType="DataModel.Genres" />
           <EntitySet Name="Comments" EntityType="DataModel.Comments" />
-          <AssociationSet Name="GenresMovies" Association="DataModel.GenresMovies">
-            <End Role="Genres" EntitySet="Genres" />
-            <End Role="Movies" EntitySet="Movies" />
-          </AssociationSet>
           <AssociationSet Name="MoviesComments" Association="DataModel.MoviesComments">
             <End Role="Movies" EntitySet="Movies" />
             <End Role="Comments" EntitySet="Comments" />
@@ -137,6 +109,10 @@
           <AssociationSet Name="UserComments" Association="DataModel.UserComments">
             <End Role="User" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="GenresMovies" Association="DataModel.GenresMovies">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="Movies" EntitySet="Movies" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -155,8 +131,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" />
           <Property Name="Plot" Type="String" Nullable="false" />
-          <NavigationProperty Name="Genres" Relationship="DataModel.GenresMovies" FromRole="Movies" ToRole="Genres" />
           <NavigationProperty Name="Comments" Relationship="DataModel.MoviesComments" FromRole="Movies" ToRole="Comments" />
+          <NavigationProperty Name="Genre" Relationship="DataModel.GenresMovies" FromRole="Movies" ToRole="Genres" />
         </EntityType>
         <EntityType Name="Genres">
           <Key>
@@ -178,10 +154,6 @@
           <NavigationProperty Name="User" Relationship="DataModel.UserComments" FromRole="Comments" ToRole="User" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="GenresMovies">
-          <End Type="DataModel.Genres" Role="Genres" Multiplicity="*" />
-          <End Type="DataModel.Movies" Role="Movies" Multiplicity="*" />
-        </Association>
         <Association Name="MoviesComments">
           <End Type="DataModel.Movies" Role="Movies" Multiplicity="1" />
           <End Type="DataModel.Comments" Role="Comments" Multiplicity="*" />
@@ -205,6 +177,10 @@
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="GenresMovies">
+          <End Type="DataModel.Genres" Role="Genres" Multiplicity="1" />
+          <End Type="DataModel.Movies" Role="Movies" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -249,12 +225,12 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="GenresMovies" TypeName="DataModel.GenresMovies" StoreEntitySet="GenresMovies">
+    <AssociationSetMapping Name="GenresMovies" TypeName="DataModel.GenresMovies" StoreEntitySet="Movies">
       <EndProperty Name="Genres">
-        <ScalarProperty Name="Id" ColumnName="Genres_Id" />
+        <ScalarProperty Name="Id" ColumnName="Genre_Id" />
       </EndProperty>
       <EndProperty Name="Movies">
-        <ScalarProperty Name="Id" ColumnName="Movies_Id" />
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
