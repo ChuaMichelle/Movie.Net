@@ -17,7 +17,9 @@ namespace Movie.Net.ViewModel
             Control currentControl = System.Windows.Input.Keyboard.FocusedElement as Control;
 
             if (currentControl != null)
+            {
                 window = Window.GetWindow(currentControl);
+            }
 
             return window;
         }
