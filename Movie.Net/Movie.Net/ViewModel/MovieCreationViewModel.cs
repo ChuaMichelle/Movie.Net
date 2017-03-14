@@ -13,13 +13,14 @@ namespace Movie.Net.ViewModel
     {
         private Movies _NewMovie;
         private List<Genres> _GenresList;
-        public RelayCommand CreateMovieCommand { get; set; }
         private DataModelContainer ctx = new DataModelContainer();
+        private HelpersViewModel HelpersViewModel { get; set; }
+        public RelayCommand CreateMovieCommand { get; set; }
 
         public MovieCreationViewModel()
         {
+            HelpersViewModel = new HelpersViewModel();
             CreateMovieCommand = new RelayCommand(CreateMovieExecute, MyCommandCanSubmit);
-            //DataModelContainer ctx = new DataModelContainer();
             GenresList = ctx.Genres.ToList();
             NewMovie = new Movies { Title="testMovie", Plot="something something" };
         }
@@ -47,8 +48,7 @@ namespace Movie.Net.ViewModel
         }
         private bool MyCommandCanSubmit()
         {
-            //if (String.IsNullOrWhiteSpace(NewMovie.Title) || String.IsNullOrWhiteSpace(NewMovie.Plot) || NewMovie.Genre == null)
-            if (String.IsNullOrWhiteSpace(NewMovie.Title) || String.IsNullOrWhiteSpace(NewMovie.Plot))
+            if (String.IsNullOrWhiteSpace(NewMovie.Title) || String.IsNullOrWhiteSpace(NewMovie.Plot) || NewMovie.Genre == null)
             {
                 return false;
             }
@@ -62,9 +62,8 @@ namespace Movie.Net.ViewModel
         {
             ctx.Movies.Add(NewMovie);
             ctx.SaveChanges();
-            App.Current.Windows[1].Close();
-            App.Current.Windows[0].Show();
+            HelpersViewModel.GetCurrentFocusedWindow().Close();
         }
-        
+
     }
 }
