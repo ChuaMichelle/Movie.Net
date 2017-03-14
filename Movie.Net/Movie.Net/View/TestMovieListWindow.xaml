@@ -1,0 +1,23 @@
+﻿<Controls:MetroWindow x:Class="Movie.Net.View.TestMovieListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Movie.Net.View"
+        mc:Ignorable="d"
+        DataContext="{Binding Source={StaticResource VMLocator}, Path=MovieListVM}"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="List of movies" Height="400" Width="700">
+    <Grid>
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Movies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="304" Width="672" AlternatingRowBackground="Gainsboro" AlternationCount="2" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Width="130*" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Plot" Width="200*" Binding="{Binding Plot}"/>
+                <!--DataGridTextColumn Header="Genres" Width="100*" Binding="{Binding Genres.Name}" /-->
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="button" Content="Log Out" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="122"/>
+        <Button x:Name="button_Copy" Content="Create New Movie" Command="{Binding ShowMovieCreationWindowCommand}" HorizontalAlignment="Left" Margin="146,10,0,0" VerticalAlignment="Top" Width="147"/>
+
+    </Grid>
+</Controls:MetroWindow>

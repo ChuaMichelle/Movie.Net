@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using System.Diagnostics;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Collections.ObjectModel;
 
 namespace Movie.Net.ViewModel
 {
@@ -15,11 +16,13 @@ namespace Movie.Net.ViewModel
         private List<Genres> _GenresList;
         private DataModelContainer ctx = new DataModelContainer();
         private HelpersViewModel HelpersViewModel { get; set; }
+        private MovieListViewModel MListViewModel { get; set; }
         public RelayCommand CreateMovieCommand { get; set; }
 
         public MovieCreationViewModel()
         {
             HelpersViewModel = new HelpersViewModel();
+            MListViewModel = new MovieListViewModel();
             CreateMovieCommand = new RelayCommand(CreateMovieExecute, MyCommandCanSubmit);
             GenresList = ctx.Genres.ToList();
             NewMovie = new Movies { Title="testMovie", Plot="something something" };
@@ -62,6 +65,7 @@ namespace Movie.Net.ViewModel
         {
             ctx.Movies.Add(NewMovie);
             ctx.SaveChanges();
+            MListViewModel.updateList(NewMovie);
             HelpersViewModel.GetCurrentFocusedWindow().Close();
         }
 

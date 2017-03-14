@@ -147,6 +147,9 @@
     <Compile Include="View\MovieListWindow.xaml.cs">
       <DependentUpon>MovieListWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\TestMovieListWindow.xaml.cs">
+      <DependentUpon>TestMovieListWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -165,6 +168,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\MovieListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestMovieListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
