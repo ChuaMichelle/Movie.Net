@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource VMLocator}, Path=MovieCreationVM}"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Add a movie" Height="600" Width="800">
+        Title="Add a movie" Height="400" Width="700">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -23,11 +23,11 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Genres:"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Comment:"/>
-            <!--TextBox Grid.Column="1" Grid.Row="0" Margin="3" /-->
             <TextBox Grid.Column="1" Grid.Row="0" Margin="3" Text="{Binding NewMovie.Title}"/>
             <ComboBox Grid.Column="1" Grid.Row="1" Margin="3" ItemsSource="{Binding GenresList}" DisplayMemberPath="Name" SelectedItem="{Binding NewMovie.Genre}" />
+            <!--ComboBox Grid.Column="1" Grid.Row="1" Margin="3" ItemsSource="{Binding GenresList}" DisplayMemberPath="Name" SelectedValue="{Binding NewMovie.Genre.Id, Mode=TwoWay}" SelectedValuePath="Id"/-->
             <TextBox Grid.Column="1" Grid.Row="2" Margin="3" Text="{Binding NewMovie.Plot}"/>
-            <Button Grid.ColumnSpan="2" Grid.Row="3"  MinWidth="80" Margin="3,3,3,3" Content="Create" Command="{Binding CreateMovieCommand}"/>
+            <Button Grid.ColumnSpan="2" Grid.Row="3"  MinWidth="80" Margin="3,3,3,3" Content="Create" Command="{Binding CreateMovieCommand}" Padding="5"/>
         </Grid>
     </Grid>
 </Controls:MetroWindow>

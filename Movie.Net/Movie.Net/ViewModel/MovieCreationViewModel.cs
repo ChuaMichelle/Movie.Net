@@ -14,12 +14,14 @@ namespace Movie.Net.ViewModel
         private Movies _NewMovie;
         private List<Genres> _GenresList;
         public RelayCommand CreateMovieCommand { get; set; }
+        private DataModelContainer ctx = new DataModelContainer();
 
         public MovieCreationViewModel()
         {
-            DataModelContainer ctx = new DataModelContainer();
-            GenresList = ctx.Genres.ToList();
             CreateMovieCommand = new RelayCommand(CreateMovieExecute, MyCommandCanSubmit);
+            //DataModelContainer ctx = new DataModelContainer();
+            GenresList = ctx.Genres.ToList();
+            NewMovie = new Movies { Title="testMovie", Plot="something something" };
         }
 
         public Movies NewMovie
@@ -43,15 +45,26 @@ namespace Movie.Net.ViewModel
                 RaisePropertyChanged("GenresList");
             }
         }
+        private bool MyCommandCanSubmit()
+        {
+            //if (String.IsNullOrWhiteSpace(NewMovie.Title) || String.IsNullOrWhiteSpace(NewMovie.Plot) || NewMovie.Genre == null)
+            if (String.IsNullOrWhiteSpace(NewMovie.Title) || String.IsNullOrWhiteSpace(NewMovie.Plot))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         private void CreateMovieExecute()
         {
-            // add movie to database
-            Trace.WriteLine("chosen genre: " + NewMovie.Genre.Name);
+            ctx.Movies.Add(NewMovie);
+            ctx.SaveChanges();
+            App.Current.Windows[1].Close();
+            App.Current.Windows[0].Show();
         }
-        private bool MyCommandCanSubmit()
-        {
-            return true;
-        }
+        
     }
 }
