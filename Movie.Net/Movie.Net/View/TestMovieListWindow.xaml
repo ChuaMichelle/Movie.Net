@@ -9,15 +9,26 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="List of movies" Height="400" Width="700">
     <Grid>
-        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Movies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="304" Width="672" AlternatingRowBackground="Gainsboro" AlternationCount="2" AutoGenerateColumns="False">
+        <Button x:Name="button" Content="Log Out" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="122"/>
+        <Button x:Name="button_Copy" Content="Create New Movie" Command="{Binding MListVM.ShowMovieCreationWindowCommand}" HorizontalAlignment="Left" Margin="146,10,0,0" VerticalAlignment="Top" Width="147"/>
+
+
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Movies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Height="202" Width="672" AlternatingRowBackground="Gainsboro" AlternationCount="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Width="130*" Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="Plot" Width="200*" Binding="{Binding Plot}"/>
+                <DataGridTextColumn Header="Title" Width="80*" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Plot" Width="300*" Binding="{Binding Plot}"/>
                 <!--DataGridTextColumn Header="Genres" Width="100*" Binding="{Binding Genres.Name}" /-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="button" Content="Log Out" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="122"/>
-        <Button x:Name="button_Copy" Content="Create New Movie" Command="{Binding MListVM.ShowMovieCreationWindowCommand}" HorizontalAlignment="Left" Margin="146,10,0,0" VerticalAlignment="Top" Width="147"/>
+        <Label x:Name="label" Content="Filter:" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.516,-0.982"/>
+        <Label x:Name="label_Copy" Content="Movie title:" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.516,-0.982"/>
+        <Label x:Name="label_Copy1" Content="Movie genre:" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.516,-0.982"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="126,77,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="393"/>
+        <ComboBox x:Name="comboBox" ItemsSource="{Binding MCreationVM.GenresList}" DisplayMemberPath="Name" SelectedItem="{Binding MCreationVM.NewMovie.Genre}" HorizontalAlignment="Left" Margin="126,105,0,0" VerticalAlignment="Top" Width="393"/>
+        <Button x:Name="button1" Content="Filter Movies" HorizontalAlignment="Left" Margin="535,77,0,0" VerticalAlignment="Top" Width="147" RenderTransformOrigin="0.633,0.716" Height="50"/>
+        <!--ComboBox ItemsSource="{Binding MCreationVM.GenresList}" DisplayMemberPath="Name" SelectedItem="{Binding MCreationVM.NewMovie.Genre}" /-->
+
+
 
     </Grid>
 </Controls:MetroWindow>
