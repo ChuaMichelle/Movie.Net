@@ -13,11 +13,12 @@ namespace Movie.Net.ViewModel
     public class MovieListViewModel : ViewModelBase
     {
         public Movies _FindMovie;
+        public RelayCommand FilterMoviesCommand { get; set; }
         public RelayCommand ShowMovieCreationWindowCommand { get; set; }
-
 
         public MovieListViewModel()
         {
+            FindMovie = new Movies();
             ShowMovieCreationWindowCommand = new RelayCommand(ShowMovieCreationWindow, CanShowMovieCreationWindow);
         }
 
@@ -44,5 +45,24 @@ namespace Movie.Net.ViewModel
             var window = new View.MovieCreationWindow();
             window.ShowDialog();
         }
+
+        private void FilterCommandExecute()
+        {
+            Trace.WriteLine("filter");
+
+        }
+
+        public bool FilterCommandCanExecute()
+        {
+            if (!String.IsNullOrWhiteSpace(FindMovie.Title) || FindMovie.Genre != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

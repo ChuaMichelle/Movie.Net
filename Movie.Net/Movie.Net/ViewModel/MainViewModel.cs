@@ -16,7 +16,8 @@ namespace Movie.Net.ViewModel
         public RelayCommand SignupCommand { get; set; }
         public RelayCommand LoginCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
-        public RelayCommand AddMovieCommand { get; set; }
+        public RelayCommand LogOutAndExitCommand { get; set; }
+        private HelpersViewModel HelpersViewModel { get; set; }
         public User user = new User();
         private string _AuthErrorMessage;
         private bool _HasAuthErrorMessage;
@@ -26,11 +27,13 @@ namespace Movie.Net.ViewModel
         public MainViewModel()
         {
             AuthViewModel = new AuthenticationViewModel();
+            HelpersViewModel = new HelpersViewModel();
             SignupCommand = new RelayCommand(SignupExecute, MyCommandsCanExecute);
             LoginCommand = new RelayCommand(LoginExecute, MyCommandsCanExecute);
             LogoutCommand = new RelayCommand(LogoutExecute, MyCommandsCanExecute);
-            AddMovieCommand = new RelayCommand(AddMovieExecute, MyCommandsCanExecute);
+            LogOutAndExitCommand = new RelayCommand(LogOutAndExitExecute, MyCommandsCanExecute);
         }
+        
 
         private bool MyCommandsCanExecute()
         {
@@ -145,11 +148,11 @@ namespace Movie.Net.ViewModel
             AuthViewModel.LogOff();
             HandleMessages(true, "Bye bye =)");
         }
-
-        private void AddMovieExecute()
+        private void LogOutAndExitExecute()
         {
-
-
+            LogoutExecute();
+            HelpersViewModel.GetCurrentFocusedWindow().Close();
+            HelpersViewModel.GetCurrentFocusedWindow().Close();
         }
 
         // false meanse error / true means success

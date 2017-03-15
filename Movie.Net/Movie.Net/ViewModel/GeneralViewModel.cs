@@ -12,21 +12,25 @@ namespace Movie.Net.ViewModel
 {
     public class GeneralViewModel : ViewModelBase
     {
-        public FilmListViewModel GetFilmTitle { get; set; }
-        private ObservableCollection<Movies> _Movies;
-        private DataModelContainer ctx = new DataModelContainer();
-        public MovieCreationViewModel MCreationVM { get; set; }
+        public MainViewModel MainVM { get; set; }
         public MovieListViewModel MListVM { get; set; }
+        public FilmListViewModel GetFilmTitle { get; set; }
+        public MovieCreationViewModel MCreationVM { get; set; }
+
+        private ObservableCollection<Movies> _Movies;
         private HelpersViewModel HelpersViewModel { get; set; }
+        private DataModelContainer ctx = new DataModelContainer();
 
         public GeneralViewModel()
         {
             //Movies = new ObservableCollection<Movies>(ctx.Movies.ToList());
-            
-            MListVM = new MovieListViewModel();
+            MainVM = new MainViewModel();
             HelpersViewModel = new HelpersViewModel();
             Movies = new ObservableCollection<Movies>(ctx.Movies);
 
+            MListVM = new MovieListViewModel();
+            MListVM.FilterMoviesCommand = new RelayCommand(FilterCommandExecute, MListVM.FilterCommandCanExecute);
+            
             MCreationVM = new MovieCreationViewModel();
             MCreationVM.GenresList = ctx.Genres.ToList();
             MCreationVM.CreateMovieCommand = new RelayCommand(CreateMovieExecute, MCreationVM.MyCommandCanSubmit);
@@ -48,7 +52,29 @@ namespace Movie.Net.ViewModel
         {
             // Wicked workaround
             // Movies.Add(movie); // turned all newly saved items into the last entry on the datagrid
-            Movies = new ObservableCollection<Movies>(ctx.Movies);
+            Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Id));
+            RaisePropertyChanged("Movies");
+        }
+
+        // MovieListWindow
+        private void FilterCommandExecute()
+        {
+            if (!String.IsNullOrWhiteSpace(MListVM.FindMovie.Title) && MListVM.FindMovie.Genre == null)
+            {
+                Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Title).Where(x => x.Title.Contains(MListVM.FindMovie.Title)));
+            }
+            else if (String.IsNullOrWhiteSpace(MListVM.FindMovie.Title) && MListVM.FindMovie.Genre != null)
+            {
+                Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Title).Where(x => x.Genre.Name.Equals(MListVM.FindMovie.Genre.Name)));
+            }
+            else if (!String.IsNullOrWhiteSpace(MListVM.FindMovie.Title) && MListVM.FindMovie.Genre != null)
+            {
+                Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Title).Where(x => x.Title.Contains(MListVM.FindMovie.Title) && x.Genre.Name.Equals(MListVM.FindMovie.Genre.Name)));
+            }
+            else
+            {
+                Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Id));
+            }
             RaisePropertyChanged("Movies");
         }
 
@@ -57,9 +83,12 @@ namespace Movie.Net.ViewModel
         {
             ctx.Movies.Add(MCreationVM.NewMovie);
             ctx.SaveChanges();
-            updateList(MCreationVM.NewMovie);
+            //updateList(MCreationVM.NewMovie);
+            MListVM.FindMovie = new Movies();
+            FilterCommandExecute();
             HelpersViewModel.GetCurrentFocusedWindow().Close();
             Trace.WriteLine("saved now: " + string.Join(", ", ctx.Movies.OrderByDescending(o => o.Id).Select(e => e.Title).ToArray()));
         }
+        
     }
 }
