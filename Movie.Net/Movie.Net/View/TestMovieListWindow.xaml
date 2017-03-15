@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Movie.Net.View"
         mc:Ignorable="d"
-        DataContext="{Binding Source={StaticResource VMLocator}, Path=MovieListVM}"
+        DataContext="{Binding Source={StaticResource VMLocator}, Path=GeneralVM}"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="List of movies" Height="400" Width="700">
     <Grid>
@@ -17,7 +17,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="button" Content="Log Out" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="122"/>
-        <Button x:Name="button_Copy" Content="Create New Movie" Command="{Binding ShowMovieCreationWindowCommand}" HorizontalAlignment="Left" Margin="146,10,0,0" VerticalAlignment="Top" Width="147"/>
+        <Button x:Name="button_Copy" Content="Create New Movie" Command="{Binding MListVM.ShowMovieCreationWindowCommand}" HorizontalAlignment="Left" Margin="146,10,0,0" VerticalAlignment="Top" Width="147"/>
 
     </Grid>
 </Controls:MetroWindow>

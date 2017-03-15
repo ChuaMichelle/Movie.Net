@@ -136,6 +136,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\GeneralViewModel.cs" />
     <Compile Include="ViewModel\HelpersViewModel.cs" />
     <Compile Include="ViewModel\MovieCreationViewModel.cs" />
     <Compile Include="ViewModel\FilmListViewModel.cs" />
