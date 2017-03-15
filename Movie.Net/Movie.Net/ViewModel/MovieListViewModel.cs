@@ -14,12 +14,17 @@ namespace Movie.Net.ViewModel
     {
         public Movies _FindMovie;
         public RelayCommand FilterMoviesCommand { get; set; }
+        public RelayCommand FilterMoviesRefreshCommand { get; set; }
         public RelayCommand ShowMovieCreationWindowCommand { get; set; }
+        public RelayCommand ShowMoviePageWindowCommand { get; set; }
+        public MoviePageViewModel MPageVM { get; set; }
 
         public MovieListViewModel()
         {
             FindMovie = new Movies();
-            ShowMovieCreationWindowCommand = new RelayCommand(ShowMovieCreationWindow, CanShowMovieCreationWindow);
+            MPageVM = new MoviePageViewModel();
+            ShowMoviePageWindowCommand = new RelayCommand(ShowMoviePageWindow, CanShowAnotherWindow);
+            ShowMovieCreationWindowCommand = new RelayCommand(ShowMovieCreationWindow, CanShowAnotherWindow);
         }
 
         public Movies FindMovie
@@ -35,7 +40,7 @@ namespace Movie.Net.ViewModel
             }
         }
 
-        public bool CanShowMovieCreationWindow()
+        public bool CanShowAnotherWindow()
         {
             return true;
         }
@@ -44,6 +49,21 @@ namespace Movie.Net.ViewModel
         {
             var window = new View.MovieCreationWindow();
             window.ShowDialog();
+        }
+
+        private void ShowMoviePageWindow()
+        {
+            Trace.WriteLine("ShowMoviePageWindow w/out params");
+            var window = new View.MovieCommentAndNote();
+            window.ShowDialog();
+        }
+
+        private void ShowMoviePageWindow(Movies movie)
+        {
+            Trace.WriteLine("ShowMoviePageWindow w/ params");
+            Trace.WriteLine("current movie title: " + movie.Title);
+            //var window = new View.Mo();
+            //window.ShowDialog();
         }
 
         private void FilterCommandExecute()

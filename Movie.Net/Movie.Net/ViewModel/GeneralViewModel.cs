@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Windows.Input;
 
 namespace Movie.Net.ViewModel
 {
@@ -15,6 +16,7 @@ namespace Movie.Net.ViewModel
         public MainViewModel MainVM { get; set; }
         public MovieListViewModel MListVM { get; set; }
         public FilmListViewModel GetFilmTitle { get; set; }
+        public MoviePageViewModel MPageVM { get; set; }
         public MovieCreationViewModel MCreationVM { get; set; }
 
         private ObservableCollection<Movies> _Movies;
@@ -25,11 +27,13 @@ namespace Movie.Net.ViewModel
         {
             //Movies = new ObservableCollection<Movies>(ctx.Movies.ToList());
             MainVM = new MainViewModel();
+            MPageVM = new MoviePageViewModel();
             HelpersViewModel = new HelpersViewModel();
             Movies = new ObservableCollection<Movies>(ctx.Movies);
 
             MListVM = new MovieListViewModel();
             MListVM.FilterMoviesCommand = new RelayCommand(FilterCommandExecute, MListVM.FilterCommandCanExecute);
+            MListVM.FilterMoviesRefreshCommand = new RelayCommand(RefreshList, MListVM.FilterCommandCanExecute);
             
             MCreationVM = new MovieCreationViewModel();
             MCreationVM.GenresList = ctx.Genres.ToList();
@@ -47,13 +51,19 @@ namespace Movie.Net.ViewModel
             }
         }
 
+
         // MovieListWindow
-        public void updateList(Movies movie)
+        private void RefreshList()
         {
             // Wicked workaround
             // Movies.Add(movie); // turned all newly saved items into the last entry on the datagrid
-            Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Id));
-            RaisePropertyChanged("Movies");
+            /*
+              Movies = new ObservableCollection<Movies>(ctx.Movies.OrderByDescending(x => x.Id));
+              RaisePropertyChanged("Movies");
+            */
+            Trace.WriteLine("refresh liste");
+            MListVM.FindMovie = new Movies();
+            FilterCommandExecute();
         }
 
         // MovieListWindow
@@ -83,9 +93,7 @@ namespace Movie.Net.ViewModel
         {
             ctx.Movies.Add(MCreationVM.NewMovie);
             ctx.SaveChanges();
-            //updateList(MCreationVM.NewMovie);
-            MListVM.FindMovie = new Movies();
-            FilterCommandExecute();
+            RefreshList();
             HelpersViewModel.GetCurrentFocusedWindow().Close();
             Trace.WriteLine("saved now: " + string.Join(", ", ctx.Movies.OrderByDescending(o => o.Id).Select(e => e.Title).ToArray()));
         }

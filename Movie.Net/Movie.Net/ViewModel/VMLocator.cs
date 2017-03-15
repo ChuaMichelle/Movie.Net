@@ -13,6 +13,7 @@ namespace Movie.Net.ViewModel
         public static MainViewModel MainVM { get; set; } = new MainViewModel();
         public static GeneralViewModel GeneralVM { get; set; } = new GeneralViewModel();
         public static MovieListViewModel MovieListVM { get; set; } = new MovieListViewModel();
+        public static MoviePageViewModel MoviePageVM { get; set; } = new MoviePageViewModel();
         public static MovieCreationViewModel MovieCreationVM { get; set; } = new MovieCreationViewModel();
     }
 }
