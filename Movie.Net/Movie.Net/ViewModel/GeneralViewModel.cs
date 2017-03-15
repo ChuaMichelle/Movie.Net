@@ -46,7 +46,8 @@ namespace Movie.Net.ViewModel
         // MovieListWindow
         public void updateList(Movies movie)
         {
-            Movies.Add(movie);
+            // Movies.Add(movie); // turned all newly saved items into the last entry on the datagrid
+            Movies = new ObservableCollection<Movies>(ctx.Movies);
             RaisePropertyChanged("Movies");
         }
 
